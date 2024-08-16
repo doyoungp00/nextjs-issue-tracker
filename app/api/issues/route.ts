@@ -7,15 +7,18 @@ export async function POST(request: NextRequest) {
 
   // Define validation schema
   const createIssueSchema = z.object({
-    title: z.string().min(1).max(255),
-    description: z.string().min(1),
+    title: z
+      .string()
+      .min(1, "Title is required.")
+      .max(255, "Title is too long."),
+    description: z.string().min(1, "Description is required."),
   });
 
   // Validate data
   const validation = createIssueSchema.safeParse(body);
   if (!validation.success)
     return NextResponse.json(
-      { error: validation.error.errors },
+      { error: validation.error.format() },
       { status: 400 }
     );
 
