@@ -29,28 +29,27 @@ function NewIssuePage() {
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      setIsSubmitting(true);
+      await axios.post("/api/issues", data);
+      router.push("/issues");
+    } catch (error) {
+      setIsSubmitting(false);
+      setError("An unexpected error occurred.");
+    }
+  });
+
   return (
     <div className="max-w-xl">
-      <form
-        className="space-y-3"
-        onSubmit={handleSubmit(async (data) => {
-          try {
-            setIsSubmitting(true);
-            await axios.post("/api/issues", data);
-            router.push("/issues");
-          } catch (error) {
-            setIsSubmitting(false);
-            setError("An unexpected error occurred.");
-          }
-        })}
-      >
+      <form className="space-y-3" onSubmit={onSubmit}>
         <TextField.Root placeholder="Title" {...register("title")} />
         <ErrorText>{errors.title?.message}</ErrorText>
         <Controller
           name="description"
           control={control}
-          render={({ field: props }) => (
-            <SimpleMDE placeholder="Description" {...props} />
+          render={({ field }) => (
+            <SimpleMDE placeholder="Description" {...field} />
           )}
         />
         <ErrorText>{errors.description?.message}</ErrorText>
