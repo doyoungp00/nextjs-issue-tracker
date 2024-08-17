@@ -1,6 +1,7 @@
 import prisma from "@/prisma/client";
 import { Table } from "@radix-ui/themes";
 import delay from "delay";
+import Link from "next/link";
 import IssueStatus from "../components/IssueStatus";
 import IssueActions from "./IssueActions";
 
@@ -27,7 +28,7 @@ async function IssuesPage() {
           {issues.map((issue) => (
             <Table.Row key={issue.id}>
               <Table.Cell>
-                {issue.title}
+                <Link href={`/issues/${issue.id}`}>{issue.title}</Link>
                 <div className="block md:hidden">
                   <IssueStatus status={issue.status} />
                 </div>
