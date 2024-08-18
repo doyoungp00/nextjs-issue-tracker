@@ -1,5 +1,6 @@
 import IssueStatus from "@/app/components/IssueStatus";
 import prisma from "@/prisma/client";
+import { Card, Flex, Heading, Text } from "@radix-ui/themes";
 import delay from "delay";
 import { notFound } from "next/navigation";
 
@@ -15,10 +16,12 @@ async function IssueDetailsPage({ params: { id } }: Props) {
 
   return (
     <div>
-      <p>{issue?.title}</p>
-      <p>{issue?.createdAt.toLocaleString()}</p>
-      <IssueStatus status={issue.status} />
-      <p>{issue?.description}</p>
+      <Heading>{issue?.title}</Heading>
+      <Flex gap="2" my="2">
+        <IssueStatus status={issue.status} />
+        <Text>{issue?.createdAt.toLocaleString()}</Text>
+      </Flex>
+      <Card>{issue?.description}</Card>
     </div>
   );
 }
