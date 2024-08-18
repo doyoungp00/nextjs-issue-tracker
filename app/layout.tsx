@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="ko" className={inter.variable}>
       <body>
-        <Theme>
+        <Theme accentColor="violet">
           <NavBar />
           <main className="px-5">{children}</main>
         </Theme>

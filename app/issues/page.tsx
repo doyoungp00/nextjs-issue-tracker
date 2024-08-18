@@ -1,8 +1,8 @@
 import prisma from "@/prisma/client";
 import { Table } from "@radix-ui/themes";
 import delay from "delay";
-import Link from "next/link";
 import IssueStatus from "../components/IssueStatus";
+import Link from "../components/Link";
 import IssueActions from "./IssueActions";
 
 async function IssuesPage() {
