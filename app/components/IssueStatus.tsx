@@ -6,7 +6,7 @@ import {
 
 function IssueStatus({ status }: { status: string }) {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-1">
       {status === "OPEN" && (
         <>
           <AiFillPlusCircle color="orange" />
