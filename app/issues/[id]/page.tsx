@@ -1,6 +1,6 @@
 import IssueStatus from "@/app/components/IssueStatus";
 import prisma from "@/prisma/client";
-import { Card, Flex, Heading, Text } from "@radix-ui/themes";
+import { Box, Card, Flex, Heading, Text } from "@radix-ui/themes";
 import delay from "delay";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
@@ -16,7 +16,7 @@ async function IssueDetailsPage({ params: { id } }: Props) {
   await delay(1000);
 
   return (
-    <div>
+    <Box>
       <Heading>{issue?.title}</Heading>
       <Flex gap="2" my="2">
         <IssueStatus status={issue.status} />
@@ -25,7 +25,7 @@ async function IssueDetailsPage({ params: { id } }: Props) {
       <Card className="prose" mt="4">
         <ReactMarkdown>{issue?.description}</ReactMarkdown>
       </Card>
-    </div>
+    </Box>
   );
 }
 
