@@ -16,7 +16,7 @@ async function IssueDetailsPage({ params: { id } }: Props) {
   await delay(1000);
 
   return (
-    <Box>
+    <Box className="max-w-xl">
       <Heading>{issue?.title}</Heading>
       <Flex gap="2" my="2">
         <IssueStatus status={issue.status} />

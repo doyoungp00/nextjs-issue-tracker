@@ -4,7 +4,7 @@ import ErrorText from "@/app/components/ErrorText";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
 import { createIssueSchema } from "@/app/validateSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Callout, TextField } from "@radix-ui/themes";
+import { Box, Button, Callout, TextField } from "@radix-ui/themes";
 import axios from "axios";
 import "easymde/dist/easymde.min.css";
 import dynamic from "next/dynamic";
@@ -46,7 +46,7 @@ function NewIssuePage() {
   });
 
   return (
-    <div className="max-w-xl">
+    <Box className="max-w-xl">
       <form className="space-y-3" onSubmit={onSubmit}>
         <TextField.Root placeholder="Title" {...register("title")} />
         <ErrorText>{errors.title?.message}</ErrorText>
@@ -70,7 +70,7 @@ function NewIssuePage() {
           Submit new Issue {isSubmitting && <LoadingSpinner />}
         </Button>
       </form>
-    </div>
+    </Box>
   );
 }
 
