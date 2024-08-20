@@ -1,4 +1,4 @@
-import IssueStatus from "@/app/components/IssueStatus";
+import { IssueStatus } from "@/app/components";
 import prisma from "@/prisma/client";
 import { Box, Card, Flex, Heading, Text } from "@radix-ui/themes";
 import delay from "delay";
