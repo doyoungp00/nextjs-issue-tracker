@@ -10,7 +10,7 @@ import "easymde/dist/easymde.min.css";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { AiFillExclamationCircle } from "react-icons/ai";
+import { AiFillExclamationCircle, AiOutlineSend } from "react-icons/ai";
 import SimpleMDE from "react-simplemde-editor";
 import { z } from "zod";
 
@@ -72,7 +72,7 @@ function IssueForm({ issue }: { issue?: Issue }) {
         </Callout.Root>
       )}
       <Button disabled={isSubmitting}>
-        {issue ? "Update Issue" : "Submit new Issue"}{" "}
+        <AiOutlineSend /> {issue ? "Update Issue" : "Submit new Issue"}{" "}
         {isSubmitting && <LoadingSpinner />}
       </Button>
     </form>
