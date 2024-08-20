@@ -1,6 +1,5 @@
 import prisma from "@/prisma/client";
 import { Box, Grid } from "@radix-ui/themes";
-import delay from "delay";
 import { notFound } from "next/navigation";
 import EditIssueButton from "./EditIssueButton";
 import IssueDetails from "./IssueDetails";
@@ -12,8 +11,6 @@ interface Props {
 async function IssueDetailsPage({ params: { id } }: Props) {
   const issue = await prisma.issue.findUnique({ where: { id: parseInt(id) } });
   if (!issue || typeof issue?.id !== "number") notFound();
-
-  await delay(1000);
 
   return (
     <Grid columns={{ initial: "1", md: "2" }} gap="4">
