@@ -1,5 +1,6 @@
 "use client";
 
+import { LoadingSpinner } from "@/app/components";
 import { AlertDialog, Button, Flex } from "@radix-ui/themes";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -9,15 +10,21 @@ import { AiOutlineDelete } from "react-icons/ai";
 function DeleteIssueButton({ id }: { id: number }) {
   const router = useRouter();
   const [error, setError] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   return (
     <>
       {/* Deletion confirm dialog */}
       <AlertDialog.Root>
         <AlertDialog.Trigger>
-          <Button color="red" className="hover:cursor-pointer">
+          <Button
+            disabled={isDeleting}
+            color="red"
+            className="hover:cursor-pointer"
+          >
             <AiOutlineDelete />
             <span>Delete Issue</span>
+            {isDeleting && <LoadingSpinner />}
           </Button>
         </AlertDialog.Trigger>
         <AlertDialog.Content>
@@ -58,13 +65,15 @@ function DeleteIssueButton({ id }: { id: number }) {
   );
 
   async function deleteIssue() {
+    setIsDeleting(true);
     try {
-      axios.delete(`/api/issues/${id}`);
+      await axios.delete(`/api/issues/${id}`);
       router.push("/issues");
       router.refresh();
     } catch (error) {
       setError(true);
     }
+    setIsDeleting(false);
   }
 }
 
