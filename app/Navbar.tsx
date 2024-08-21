@@ -1,10 +1,14 @@
 "use client";
+
+import { Box } from "@radix-ui/themes";
 import classNames from "classnames";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AiFillBug } from "react-icons/ai";
 
 function NavBar() {
+  const { status, data: session } = useSession();
   const links = [
     { label: "Dashboard", href: "/" },
     { label: "Issues", href: "/issues" },
@@ -32,6 +36,24 @@ function NavBar() {
           </li>
         ))}
       </ul>
+      <Box>
+        {status === "authenticated" && (
+          <Link
+            href="/api/auth/signout"
+            className="text-zinc-500 hover:text-zinc-800 transition-colors"
+          >
+            Log Out
+          </Link>
+        )}
+        {status === "unauthenticated" && (
+          <Link
+            href="/api/auth/signin"
+            className="text-zinc-500 hover:text-zinc-800 transition-colors"
+          >
+            Log In
+          </Link>
+        )}
+      </Box>
     </nav>
   );
 }
