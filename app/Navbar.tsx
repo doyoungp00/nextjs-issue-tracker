@@ -55,6 +55,7 @@ function NavBar() {
                   fallback={<AiOutlineUser />}
                   size="2"
                   radius="full"
+                  referrerPolicy="no-referrer"
                   className="cursor-pointer"
                 />
               </DropdownMenu.Trigger>
