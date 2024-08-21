@@ -1,5 +1,6 @@
 "use client";
 
+import { Skeleton } from "@/app/components";
 import {
   Avatar,
   Box,
@@ -16,7 +17,7 @@ import { AiFillBug, AiOutlineUser } from "react-icons/ai";
 
 function NavBar() {
   return (
-    <nav className="border-b mb-6 px-3 py-3">
+    <nav className="content-center border-b mb-6 px-3 py-3 h-14">
       <Container>
         <Flex justify="between">
           <Flex gap="4">
@@ -61,7 +62,7 @@ function NavBarLinks() {
 function AuthStatus() {
   const { status, data: session } = useSession();
 
-  if (status === "loading") return null;
+  if (status === "loading") return <Skeleton width="3rem" />;
   if (status === "unauthenticated")
     return (
       <Link href="/api/auth/signin" className="nav-link">
