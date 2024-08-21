@@ -17,7 +17,7 @@ import { AiFillBug, AiOutlineUser } from "react-icons/ai";
 
 function NavBar() {
   return (
-    <nav className="content-center border-b mb-6 px-3 py-3 h-14">
+    <nav className="content-center border-b mb-6 px-3 h-14">
       <Container>
         <Flex justify="between">
           <Flex gap="4">
