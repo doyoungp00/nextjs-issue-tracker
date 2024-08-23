@@ -3,11 +3,21 @@ import prisma from "@/prisma/client";
 import { Issue, Status } from "@prisma/client";
 import { Table } from "@radix-ui/themes";
 import NextLink from "next/link";
-import { AiOutlineArrowUp } from "react-icons/ai";
+import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
 import IssueActions from "./IssueActions";
 
 interface Props {
-  searchParams: { status: Status; orderBy: keyof Issue };
+  searchParams: {
+    status: Status;
+    orderBy: keyof Issue;
+    orderDir: "asc" | "desc";
+  };
+}
+
+interface ColumnLink {
+  label: string;
+  value: keyof Issue;
+  className?: string;
 }
 
 async function IssuesPage({ searchParams }: Props) {
@@ -21,11 +31,37 @@ async function IssuesPage({ searchParams }: Props) {
     where: { status },
   });
 
-  const columns: { label: string; value: keyof Issue; className?: string }[] = [
+  const columns: ColumnLink[] = [
     { label: "Issue", value: "title" },
     { label: "Status", value: "status", className: "hidden md:table-cell" },
     { label: "Created", value: "createdAt", className: "hidden md:table-cell" },
   ];
+
+  function IssueColumnHead({ column }: { column: ColumnLink }) {
+    return (
+      <NextLink
+        href={{
+          query: {
+            ...searchParams,
+            orderBy: column.value,
+            orderDir: searchParams.orderDir === "asc" ? "desc" : "asc",
+          },
+        }}
+      >
+        {column.label}{" "}
+        {searchParams.orderBy === column.value && (
+          <>
+            {searchParams.orderDir === "asc" && (
+              <AiOutlineArrowUp className="inline" />
+            )}
+            {searchParams.orderDir === "desc" && (
+              <AiOutlineArrowDown className="inline" />
+            )}
+          </>
+        )}
+      </NextLink>
+    );
+  }
 
   return (
     <div>
@@ -38,14 +74,7 @@ async function IssuesPage({ searchParams }: Props) {
                 key={column.value}
                 className={column.className}
               >
-                <NextLink
-                  href={{ query: { ...searchParams, orderBy: column.value } }}
-                >
-                  {column.label}{" "}
-                  {searchParams.orderBy === column.value && (
-                    <AiOutlineArrowUp className="inline" />
-                  )}
-                </NextLink>
+                <IssueColumnHead column={column} />
               </Table.ColumnHeaderCell>
             ))}
           </Table.Row>
