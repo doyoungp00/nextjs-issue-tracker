@@ -5,9 +5,12 @@ import { Issue, User } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 
 function AssigneeSelect({ issue }: { issue: Issue }) {
+  const router = useRouter();
+
   const { data: users, error, isLoading } = useUsers();
 
   if (error) return null;
@@ -20,6 +23,7 @@ function AssigneeSelect({ issue }: { issue: Issue }) {
         description: issue.description,
         assignedToUserId: userId === "unassigned" ? null : userId,
       })
+      .then(() => router.refresh())
       .catch(() => toast.error("Changes could not be saved."));
   }
 
@@ -56,4 +60,5 @@ function useUsers() {
   });
 }
 
+export const dynamic = "force-dynamic";
 export default AssigneeSelect;
