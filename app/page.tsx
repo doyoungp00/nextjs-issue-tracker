@@ -1,16 +1,5 @@
-import Pagination from "./components/Pagnation";
+import IssueActions from "./issues/IssueActions";
 
-export default function Home({
-  searchParams,
-}: {
-  searchParams: { page: string };
-}) {
-  return (
-    <Pagination
-      url="/"
-      itemCount={99}
-      pageSize={10}
-      currentPage={parseInt(searchParams.page)}
-    />
-  );
+export default function Home() {
+  return <IssueActions />;
 }
