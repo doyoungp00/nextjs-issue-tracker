@@ -46,17 +46,26 @@ async function IssuesPage({ searchParams }: Props) {
     orderBy,
   });
 
+  function getQuery(column: ColumnLink) {
+    const oldOrder = searchParams.orderBy;
+
+    return {
+      query: {
+        ...searchParams,
+        orderBy: column.value,
+        orderDir:
+          oldOrder === column.value
+            ? searchParams.orderDir === "asc"
+              ? "desc"
+              : "asc"
+            : "asc",
+      },
+    };
+  }
+
   function IssueColumnHead({ column }: { column: ColumnLink }) {
     return (
-      <NextLink
-        href={{
-          query: {
-            ...searchParams,
-            orderBy: column.value,
-            orderDir: searchParams.orderDir === "asc" ? "desc" : "asc",
-          },
-        }}
-      >
+      <NextLink href={getQuery(column)}>
         {column.label}{" "}
         {searchParams.orderBy === column.value && (
           <>

@@ -17,15 +17,12 @@ function IssueStatusFilter() {
   const searchParams = useSearchParams();
 
   function queryChange(status: string) {
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(searchParams.toString());
 
-    if (status && status !== "all") params.append("status", status);
-    if (searchParams.get("orderBy"))
-      params.append("orderBy", searchParams.get("orderBy")!);
-    if (searchParams.get("orderDir"))
-      params.append("orderDir", searchParams.get("orderDir")!);
+    if (status === "all") params.delete("status");
+    else params.set("status", status);
 
-    const query = params.size ? `?${params.toString()}` : "";
+    const query = params.toString() ? `?${params.toString()}` : "";
     router.push(`/issues${query}`);
   }
 
