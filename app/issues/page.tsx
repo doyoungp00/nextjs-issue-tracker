@@ -1,6 +1,6 @@
 import { IssueStatus, Link } from "@/app/components";
 import prisma from "@/prisma/client";
-import { Issue, Status } from "@prisma/client";
+import { Issue, Prisma, Status } from "@prisma/client";
 import { Table } from "@radix-ui/themes";
 import NextLink from "next/link";
 import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
@@ -33,13 +33,17 @@ async function IssuesPage({ searchParams }: Props) {
     { label: "Created", value: "createdAt", className: "hidden md:table-cell" },
   ];
 
+  const defaultOrder: Prisma.IssueOrderByWithRelationInput = {
+    createdAt: "desc",
+  };
+
   const orderBy = columns
     .map((column) => column.value)
     .includes(searchParams.orderBy)
     ? searchParams.orderDir === "asc" || searchParams.orderDir === "desc"
       ? { [searchParams.orderBy]: searchParams.orderDir }
-      : undefined
-    : undefined;
+      : defaultOrder
+    : defaultOrder;
 
   const issues = await prisma.issue.findMany({
     where: { status },
