@@ -27,15 +27,24 @@ async function IssuesPage({ searchParams }: Props) {
     ? searchParams.status
     : undefined;
 
-  const issues = await prisma.issue.findMany({
-    where: { status },
-  });
-
   const columns: ColumnLink[] = [
     { label: "Issue", value: "title" },
     { label: "Status", value: "status", className: "hidden md:table-cell" },
     { label: "Created", value: "createdAt", className: "hidden md:table-cell" },
   ];
+
+  const orderBy = columns
+    .map((column) => column.value)
+    .includes(searchParams.orderBy)
+    ? searchParams.orderDir === "asc" || searchParams.orderDir === "desc"
+      ? { [searchParams.orderBy]: searchParams.orderDir }
+      : undefined
+    : undefined;
+
+  const issues = await prisma.issue.findMany({
+    where: { status },
+    orderBy,
+  });
 
   function IssueColumnHead({ column }: { column: ColumnLink }) {
     return (
