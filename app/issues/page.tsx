@@ -1,25 +1,12 @@
-import { IssueStatus, Link } from "@/app/components";
 import prisma from "@/prisma/client";
-import { Issue, Prisma, Status } from "@prisma/client";
-import { Flex, Table } from "@radix-ui/themes";
-import NextLink from "next/link";
-import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
+import { Prisma, Status } from "@prisma/client";
+import { Flex } from "@radix-ui/themes";
 import Pagination from "../components/Pagnation";
 import IssueActions from "./IssueActions";
+import IssueTable, { columns, IssueQuery } from "./_components/IssueTable";
 
 interface Props {
-  searchParams: {
-    status: Status;
-    orderBy: keyof Issue;
-    orderDir: "asc" | "desc";
-    page: string;
-  };
-}
-
-interface ColumnLink {
-  label: string;
-  value: keyof Issue;
-  className?: string;
+  searchParams: IssueQuery;
 }
 
 async function IssuesPage({ searchParams }: Props) {
@@ -28,18 +15,13 @@ async function IssuesPage({ searchParams }: Props) {
   const status = statuses.includes(searchParams.status)
     ? searchParams.status
     : undefined;
-  const where = { status };
-
-  const columns: ColumnLink[] = [
-    { label: "Issue", value: "title" },
-    { label: "Status", value: "status", className: "hidden md:table-cell" },
-    { label: "Created", value: "createdAt", className: "hidden md:table-cell" },
-  ];
 
   const defaultOrder: Prisma.IssueOrderByWithRelationInput = {
     createdAt: "desc",
   };
 
+  // Prisma parameters
+  const where = { status };
   const orderBy = columns
     .map((column) => column.value)
     .includes(searchParams.orderBy)
@@ -51,6 +33,7 @@ async function IssuesPage({ searchParams }: Props) {
   const page = parseInt(searchParams.page) || 1;
   const pageSize = 10;
 
+  // Prisma query
   const issues = await prisma.issue.findMany({
     where,
     orderBy,
@@ -59,77 +42,11 @@ async function IssuesPage({ searchParams }: Props) {
   });
   const issueCount = await prisma.issue.count({ where });
 
-  function getQuery(column: ColumnLink) {
-    const oldOrder = searchParams.orderBy;
-
-    return {
-      query: {
-        ...searchParams,
-        orderBy: column.value,
-        orderDir:
-          oldOrder === column.value
-            ? searchParams.orderDir === "asc"
-              ? "desc"
-              : "asc"
-            : "asc",
-      },
-    };
-  }
-
-  function IssueColumnHead({ column }: { column: ColumnLink }) {
-    return (
-      <NextLink href={getQuery(column)}>
-        {column.label}{" "}
-        {searchParams.orderBy === column.value && (
-          <>
-            {searchParams.orderDir === "asc" && (
-              <AiOutlineArrowUp className="inline" />
-            )}
-            {searchParams.orderDir === "desc" && (
-              <AiOutlineArrowDown className="inline" />
-            )}
-          </>
-        )}
-      </NextLink>
-    );
-  }
-
   return (
-    <div>
+    <Flex direction="column" gap="4">
       <IssueActions />
-      <Table.Root variant="surface">
-        <Table.Header>
-          <Table.Row>
-            {columns.map((column) => (
-              <Table.ColumnHeaderCell
-                key={column.value}
-                className={column.className}
-              >
-                <IssueColumnHead column={column} />
-              </Table.ColumnHeaderCell>
-            ))}
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {issues.map((issue) => (
-            <Table.Row key={issue.id}>
-              <Table.Cell>
-                <Link href={`/issues/${issue.id}`}>{issue.title}</Link>
-                <div className="block md:hidden">
-                  <IssueStatus status={issue.status} />
-                </div>
-              </Table.Cell>
-              <Table.Cell className="hidden md:table-cell">
-                <IssueStatus status={issue.status} />
-              </Table.Cell>
-              <Table.Cell className="hidden md:table-cell">
-                {issue.createdAt.toLocaleString()}
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table.Root>
-      <Flex justify="center" mt="4">
+      <IssueTable searchParams={searchParams} issues={issues} />
+      <Flex justify="center">
         <Pagination
           url="/issues"
           itemCount={issueCount}
@@ -137,7 +54,7 @@ async function IssuesPage({ searchParams }: Props) {
           currentPage={page}
         />
       </Flex>
-    </div>
+    </Flex>
   );
 }
 
