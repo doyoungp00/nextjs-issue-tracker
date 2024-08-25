@@ -1,5 +1,5 @@
-import IssueActions from "./issues/IssueActions";
+import LatestIssues from "./LatestIssues";
 
 export default function Home() {
-  return <IssueActions />;
+  return <LatestIssues />;
 }
