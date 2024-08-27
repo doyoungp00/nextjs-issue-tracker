@@ -1,8 +1,8 @@
 import { IssueStatus } from "@/app/components";
 import prisma from "@/prisma/client";
-import { Avatar, Card, Flex, Heading, Table } from "@radix-ui/themes";
+import { Card, Flex, Heading, Table } from "@radix-ui/themes";
 import Link from "next/link";
-import { AiOutlineUser } from "react-icons/ai";
+import ProfileHoverCard from "./components/ProfileHoverCard";
 
 async function LatestIssues() {
   const issues = await prisma.issue.findMany({
@@ -27,12 +27,7 @@ async function LatestIssues() {
                     <IssueStatus status={issue.status} />
                   </Flex>
                   {issue.assignedToUser && (
-                    <Avatar
-                      src={issue.assignedToUser.image!}
-                      fallback={<AiOutlineUser />}
-                      size="2"
-                      radius="full"
-                    />
+                    <ProfileHoverCard user={issue.assignedToUser} />
                   )}
                 </Flex>
               </Table.Cell>
