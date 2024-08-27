@@ -30,7 +30,7 @@ function IssuesSummary() {
           <Card
             key={container.label}
             onClick={() => router.push(`/issues?status=${container.status}`)}
-            className="hover:cursor-pointer"
+            className="border transition-all duration-300 hover:border-gray-700 hover:border-1.5 cursor-pointer"
           >
             <Flex direction="column" gap="2" width="9rem">
               {stats && <Heading>{stats[container.status]}</Heading>}
@@ -39,7 +39,9 @@ function IssuesSummary() {
                   <LoadingSpinner />
                 </Heading>
               )}
-              <Text>{container.label}</Text>
+              <Text size="2" className="font-medium">
+                {container.label}
+              </Text>
             </Flex>
           </Card>
         ))}
