@@ -1,8 +1,7 @@
-import { IssueStatus } from "@/app/components";
+import { IssueStatus, ProfileHoverCard } from "@/app/components";
 import prisma from "@/prisma/client";
 import { Card, Flex, Heading, Table } from "@radix-ui/themes";
 import Link from "next/link";
-import ProfileHoverCard from "./components/ProfileHoverCard";
 
 async function LatestIssues() {
   const issues = await prisma.issue.findMany({
