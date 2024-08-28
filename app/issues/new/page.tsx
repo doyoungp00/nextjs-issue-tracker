@@ -1,4 +1,5 @@
 import { Box } from "@radix-ui/themes";
+import { Metadata } from "next";
 import dynamic from "next/dynamic";
 import IssueFormSkeleton from "../_components/IssueFormSkeleton";
 
@@ -14,5 +15,10 @@ function NewIssuePage() {
     </Box>
   );
 }
+
+export const metadata: Metadata = {
+  title: "New Issue - Issue Tracker",
+  description: "Create a new issue",
+};
 
 export default NewIssuePage;
