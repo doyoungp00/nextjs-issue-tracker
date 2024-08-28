@@ -1,10 +1,10 @@
 "use client";
 
+import { LoadingSpinner } from "@/app/components";
 import { Status } from "@prisma/client";
 import { Card, Flex, Heading, ScrollArea, Text } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { LoadingSpinner } from "./components";
 
 function IssuesSummary() {
   const router = useRouter();
