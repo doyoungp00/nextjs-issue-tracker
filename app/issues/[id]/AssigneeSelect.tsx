@@ -1,6 +1,6 @@
 "use client";
 
-import { Skeleton } from "@/app/components";
+import { ProfileHoverCard, Skeleton } from "@/app/components";
 import { Issue, User } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
 import { useQuery } from "@tanstack/react-query";
@@ -40,6 +40,7 @@ function AssigneeSelect({ issue }: { issue: Issue }) {
             <Select.Item value="unassigned">{"<Unassigned>"}</Select.Item>
             {users?.map((user) => (
               <Select.Item key={user.id} value={user.id}>
+                <ProfileHoverCard id={user.id} />
                 {user.name} {user.email ? `(${user.email})` : null}
               </Select.Item>
             ))}

@@ -25,8 +25,8 @@ async function LatestIssues() {
                     <Link href={`/issues/${issue.id}`}>{issue.title}</Link>
                     <IssueStatus status={issue.status} />
                   </Flex>
-                  {issue.assignedToUser && (
-                    <ProfileHoverCard user={issue.assignedToUser} />
+                  {issue.assignedToUserId && (
+                    <ProfileHoverCard id={issue.assignedToUserId} />
                   )}
                 </Flex>
               </Table.Cell>

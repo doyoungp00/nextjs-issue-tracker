@@ -1,8 +1,11 @@
-import { User } from "@prisma/client";
+import prisma from "@/prisma/client";
 import { Avatar, Flex, Heading, HoverCard, Text } from "@radix-ui/themes";
 import { AiOutlineUser } from "react-icons/ai";
 
-function ProfileHoverCard({ user }: { user: User }) {
+async function ProfileHoverCard({ id }: { id: string }) {
+  const user = await prisma.user.findUnique({ where: { id } });
+  if (!user) return null;
+
   return (
     <HoverCard.Root>
       <HoverCard.Trigger>
