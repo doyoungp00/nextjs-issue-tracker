@@ -1,12 +1,13 @@
 "use client";
 
-import { ProfileHoverCard, Skeleton } from "@/app/components";
+import { Skeleton } from "@/app/components";
 import { Issue, User } from "@prisma/client";
-import { Select } from "@radix-ui/themes";
+import { Avatar, Select } from "@radix-ui/themes";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
+import { AiOutlineUser } from "react-icons/ai";
 
 function AssigneeSelect({ issue }: { issue: Issue }) {
   const router = useRouter();
@@ -40,7 +41,12 @@ function AssigneeSelect({ issue }: { issue: Issue }) {
             <Select.Item value="unassigned">{"<Unassigned>"}</Select.Item>
             {users?.map((user) => (
               <Select.Item key={user.id} value={user.id}>
-                <ProfileHoverCard id={user.id} />
+                <Avatar
+                  src={user.image!}
+                  fallback={<AiOutlineUser />}
+                  size="2"
+                  radius="full"
+                />
                 {user.name} {user.email ? `(${user.email})` : null}
               </Select.Item>
             ))}
