@@ -14,5 +14,7 @@ export async function GET(request: NextRequest) {
     return acc;
   }, {} as Record<Status, number>);
 
-  return NextResponse.json(counts);
+  const response = NextResponse.json(counts);
+  response.headers.set("Cache-Control", "public, max-age=30");
+  return response;
 }
