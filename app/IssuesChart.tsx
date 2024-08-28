@@ -32,12 +32,12 @@ function IssuesChart() {
       )}
       {stats && (
         <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={statsArray}>
+          <BarChart data={statsArray} margin={{ left: -35 }}>
             <XAxis dataKey="label" />
             <YAxis />
             <Bar
               dataKey="value"
-              barSize={50}
+              barSize={40}
               style={{ fill: "var(--accent-9)" }}
             />
           </BarChart>
