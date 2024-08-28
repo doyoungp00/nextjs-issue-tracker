@@ -44,9 +44,9 @@ function AssigneeSelect({ issue }: { issue: Issue }) {
                 <Avatar
                   src={user.image!}
                   fallback={<AiOutlineUser />}
-                  size="2"
+                  size="1"
                   radius="full"
-                />
+                />{" "}
                 {user.name} {user.email ? `(${user.email})` : null}
               </Select.Item>
             ))}
